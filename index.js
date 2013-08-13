@@ -105,7 +105,7 @@ var Wire = function() {
 			case 9:
 			return self._onport(buffer.readUInt16BE(1));
 			case 20:
-			return self._onextended(buffer[1], bncode.decode(buffer));
+			return self._onextended(buffer);
 		}
 		self.emit('unknownmessage', buffer);
 	};
@@ -294,7 +294,9 @@ Wire.prototype._onport = function(port) {
 	this.emit('port', port);
 };
 
-Wire.prototype._onextended = function(id, msg) {
+Wire.prototype._onextended = function(buffer) {
+    var id = buffer[1], msg;
+    try { msg = bncode.decode(buffer) } catch(e) {};
 	this.emit('extended', id, msg);
 };
 
