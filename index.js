@@ -296,7 +296,7 @@ Wire.prototype._onport = function(port) {
 
 Wire.prototype._onextended = function(buffer) {
     var id = buffer[1], decoder = new bncode.decoder();
-    decoder.decode(buffer);
+    try { decoder.decode(buffer) } catch(e) { };
 	this.emit('extended', id, decoder.current_result()[0], buffer);
 };
 
